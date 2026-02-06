@@ -132,19 +132,8 @@ function runInWorker(
       return;
     }
 
-    const estimated =
-      durationSeconds != null && durationSeconds > 0
-        ? Math.max(10, durationSeconds * 0.5)
-        : 90;
-    const startTime = performance.now();
-    const progressInterval =
-      onProgress &&
-      setInterval(() => {
-        const elapsed = (performance.now() - startTime) / 1000;
-        const fraction = Math.min(elapsed / estimated, 1);
-        const percent = Math.round(15 + fraction * 80);
-        onProgress({ stage: "transcribing", label: `Transcribing... ${percent}%`, percent });
-      }, 1000);
+    // Let the worker report its own coarse stages (0,5,15,100) to avoid
+    // pretending we have fine‑grained progress that we can't compute.
 
     worker.onmessage = (e: MessageEvent) => {
       if (e.data.type === "progress") {
@@ -154,11 +143,9 @@ function runInWorker(
           percent: e.data.percent,
         });
       } else if (e.data.type === "done") {
-        if (progressInterval) clearInterval(progressInterval);
         worker.terminate();
         resolve({ segments: e.data.segments });
       } else if (e.data.type === "error") {
-        if (progressInterval) clearInterval(progressInterval);
         worker.terminate();
         reject(new Error(e.data.message));
       }
@@ -196,18 +183,6 @@ async function runOnMainThread(
   );
 
   report("transcribing", "Transcribing audio...", 15);
-  const startTime = performance.now();
-  const estimated =
-    durationSeconds != null && durationSeconds > 0 && isFinite(durationSeconds)
-      ? Math.max(10, durationSeconds * 0.5)
-      : 90;
-  const progressInterval =
-    onProgress &&
-    window.setInterval(() => {
-      const elapsed = (performance.now() - startTime) / 1000;
-      const fraction = Math.min(elapsed / estimated, 1);
-      report("transcribing", `Transcribing audio... ${Math.round(15 + fraction * 80)}%`, Math.round(15 + fraction * 80));
-    }, 500);
 
   await new Promise((r) => setTimeout(r, 50));
 
@@ -218,7 +193,6 @@ async function runOnMainThread(
     force_full_sequences: true,
   });
 
-  if (progressInterval) window.clearInterval(progressInterval);
   report("transcribing", "Done", 100);
 
   const segments = parseWhisperOutput(

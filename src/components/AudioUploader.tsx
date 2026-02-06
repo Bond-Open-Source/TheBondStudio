@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import InfoTooltip from "@/components/InfoTooltip";
 
 const ACCEPTED_TYPES = ["audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/mp4", "audio/x-m4a"];
 const ACCEPTED_EXTENSIONS = [".mp3", ".wav", ".m4a"];
@@ -44,41 +45,49 @@ export default function AudioUploader({ onFileSelect, isProcessing }: AudioUploa
   };
 
   return (
-    <label
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      className={`
-        flex flex-col items-center justify-center w-full min-h-[12rem] border-2 border-dashed rounded-xl
-        cursor-pointer transition-all duration-200
-        ${isProcessing
-          ? "opacity-60 cursor-not-allowed border-zinc-700/40 bg-zinc-800/20"
-          : "border-zinc-600/60 hover:border-indigo-500/50 hover:bg-indigo-500/5 bg-zinc-800/30"}
-      `}
-    >
-      <input
-        type="file"
-        accept=".mp3,.wav,.m4a,audio/mpeg,audio/wav,audio/mp4"
-        onChange={handleChange}
-        disabled={isProcessing}
-        className="hidden"
-      />
-      <svg
-        className="w-11 h-11 mb-3 text-indigo-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+    <div className="space-y-3">
+      <label
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        className={`
+          flex flex-col items-center justify-center w-full min-h-[12rem] border border-dashed rounded-2xl
+          cursor-pointer transition-all duration-200 bg-white
+          ${isProcessing
+            ? "opacity-60 cursor-not-allowed border-slate-200"
+            : "border-slate-300 hover:border-slate-400 hover:bg-slate-50 shadow-sm"}
+        `}
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.8}
-          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+        <input
+          type="file"
+          accept=".mp3,.wav,.m4a,audio/mpeg,audio/wav,audio/mp4"
+          onChange={handleChange}
+          disabled={isProcessing}
+          className="hidden"
         />
-      </svg>
-      <span className="text-sm text-zinc-400 mb-1 font-medium">
-        {isProcessing ? "Processing..." : "Drop audio file here or click to upload"}
-      </span>
-      <span className="text-xs text-zinc-500">MP3, WAV, or M4A</span>
-    </label>
+        <svg
+          className="w-11 h-11 mb-3 text-slate-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.8}
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+          />
+        </svg>
+        <span className="text-sm text-slate-900 mb-1 font-medium">
+          {isProcessing ? "Processing…" : "Drop audio file here or click to choose"}
+        </span>
+        <span className="text-xs text-slate-500">Optimized for MP3, WAV, or M4A</span>
+      </label>
+      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+        <InfoTooltip label="Recommended audio">
+          Use a final mix (not raw microphone feed) for the cleanest subtitles and visuals. Very long files may take more time to process.
+        </InfoTooltip>
+        <span>Recommended: 44.1 kHz or 48 kHz stereo exports.</span>
+      </div>
+    </div>
   );
 }

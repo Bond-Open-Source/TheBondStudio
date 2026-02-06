@@ -50,7 +50,7 @@ export default function CircularWaveform({ audioUrl, color = "#6366f1" }: Circul
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
-    const size = 280;
+    const size = 140;
     const dpr = window.devicePixelRatio || 1;
     canvasRef.current.width = size * dpr;
     canvasRef.current.height = size * dpr;
@@ -105,20 +105,20 @@ export default function CircularWaveform({ audioUrl, color = "#6366f1" }: Circul
     if (!canvas || !peaks) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const size = 280;
+    const size = 140;
     drawCircularWaveform(ctx, size, peaks, 0, color);
   }, [color]);
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="rounded-full p-1 ring-1 ring-white/5 bg-zinc-800/50">
+      <div className="rounded-full p-1 ring-1 ring-slate-200 bg-slate-100">
         <canvas
           ref={canvasRef}
           className="rounded-full"
-          style={{ width: 280, height: 280 }}
+          style={{ width: 140, height: 140 }}
         />
       </div>
-      {error && <p className="text-sm text-amber-400">{error}</p>}
+      {error && <p className="text-sm text-amber-500">{error}</p>}
     </div>
   );
 }

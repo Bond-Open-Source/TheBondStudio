@@ -28,13 +28,7 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${jetbrains.variable}`}
     >
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto:wght@400;600&family=Lato:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-sans antialiased min-h-screen bg-zinc-950 text-zinc-100">
+      <body className="antialiased min-h-screen bg-[#f5f5f7] text-slate-900">
         {children}
       </body>
     </html>

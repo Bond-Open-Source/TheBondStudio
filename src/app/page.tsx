@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AudioUploader from "@/components/AudioUploader";
-import CircularWaveform from "@/components/CircularWaveform";
 import BrandingEditor from "@/components/BrandingEditor";
 import VideoPreview from "@/components/VideoPreview";
 import TranscriptEditor from "@/components/TranscriptEditor";
+import InfoTooltip from "@/components/InfoTooltip";
 import { computeAmplitudeCurve } from "@/lib/amplitudeCurve";
 import { DEFAULT_BRANDING } from "@/types";
 import type { BrandingTemplate } from "@/types";
@@ -60,15 +60,15 @@ export default function Home() {
     };
   }, [audioUrl, isTranscribing]);
 
-  const handleFileSelect = useCallback((file: File) => {
+  const handleFileSelect = (file: File) => {
     if (audioUrl) URL.revokeObjectURL(audioUrl);
     setAudioFile(file);
     setAudioUrl(URL.createObjectURL(file));
     setSegments([]);
     setTranscribeError(null);
-  }, [audioUrl]);
+  };
 
-  const handleTranscribe = useCallback(async () => {
+  async function handleTranscribe() {
     if (!audioUrl) return;
 
     setIsTranscribing(true);
@@ -106,27 +106,46 @@ export default function Home() {
       setTranscribeProgress(null);
       setTranscribePercent(0);
     }
-  }, [audioUrl, useSmallModel]);
+  }
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-8 md:p-12">
+    <main className="min-h-screen px-5 py-8 md:px-10 md:py-12 app-shell">
       <div className="max-w-6xl mx-auto space-y-10">
-        <header className="text-center space-y-3 pb-2">
-          <div className="flex items-center justify-center gap-4">
-            <h1 className="text-3xl md:text-6xl font-bold tracking-tight text-white">
-              Audio → Video
-            </h1>
+        <header className="space-y-3 pb-2">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center p-1 justify-center">
+                <Image
+                  src={logo}
+                  alt="App logo"
+                  className="h-24 w-24 object-contain"
+                />
+              </div>
+              <div>
+                <h1 className="text-[22px] md:text-[28px] font-semibold tracking-tight text-slate-900">
+                  Audio → Video Studio
+                </h1>
+                <p className="text-[14px] font-semibold uppercase tracking-[0.05em] text-slate-500 ">
+                  PODCAST TO YOUTUBE‑READY VIDEO
+                </p>
+              </div>
+            </div>
           </div>
-          <p className="text-zinc-400 text-xl max-w-lg mx-auto">
-            Convert podcast audio into YouTube-ready videos with waveforms and auto-generated subtitles
+          <p className="text-sm md:text-[15px] text-slate-600 max-w-2xl leading-relaxed">
+            Drop in an episode, fine‑tune your branding, and export a clean, ready‑to‑upload video — all in one place.
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <section className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 shadow-xl">
-            <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">
-              1. Upload Audio
-            </h2>
+          <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                1. Upload Audio
+              </h2>
+              <InfoTooltip label="Audio upload help">
+                Supports MP3, WAV, or M4A. For best transcription and waveform quality, use high‑bitrate audio without heavy compression.
+              </InfoTooltip>
+            </div>
             <AudioUploader
               onFileSelect={handleFileSelect}
               isProcessing={isTranscribing}
@@ -134,60 +153,65 @@ export default function Home() {
           </section>
 
           {audioUrl && (
-            <section className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 shadow-xl">
-              <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">
-                2. Waveform &amp; Transcription
-              </h2>
+            <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-2">
+                  
+                  <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                    2. Waveform &amp; Transcription
+                  </h2>
+                </div>
+                <InfoTooltip label="Transcription help">
+                  Generate a local Whisper transcription. Higher‑accuracy mode improves results on difficult audio but is slower.
+                </InfoTooltip>
+              </div>
               <div className="space-y-5">
-                <CircularWaveform
-                  audioUrl={audioUrl}
-                  color={branding.waveformColor ?? branding.primaryColor}
-                />
                 <div className="flex flex-col gap-4">
-                  <label className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={useSmallModel}
                       onChange={(e) => setUseSmallModel(e.target.checked)}
                       disabled={isTranscribing}
-                      className="rounded border-zinc-600 bg-zinc-800 text-indigo-500 focus:ring-indigo-500"
-                    />
-                    Higher accuracy (whisper-small, slower)
-                  </label>
-                  <button
-                    onClick={handleTranscribe}
-                    disabled={isTranscribing}
-                    className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors w-fit disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-lg shadow-indigo-500/20"
-                  >
-                    {isTranscribing
-                      ? "Transcribing..."
-                      : "Generate Subtitles (Local Whisper)"}
-                  </button>
-                  {isTranscribing && transcribeProgress && (
-                    <div className="space-y-2">
-                      <p className="text-sm text-zinc-400">
-                        {transcribeProgress}
-                        {transcribePercent > 0 && transcribePercent < 100 && (
-                          <span className="text-zinc-300 font-medium ml-1">
-                            ({transcribePercent}%)
-                          </span>
-                        )}
-                      </p>
-                      <div className="h-2 w-full max-w-sm rounded-full bg-zinc-800 overflow-hidden">
-                        <div
-                          className="h-full bg-indigo-500 rounded-full transition-[width] duration-300"
-                          style={{ width: `${transcribePercent}%` }}
-                        />
+                        className="rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900"
+                      />
+                      Higher accuracy (Whisper small, slower)
+                    </label>
+                    <button
+                      onClick={handleTranscribe}
+                      disabled={isTranscribing}
+                      className="px-5 py-2.5 rounded-xl bg-slate-900 text-slate-50 font-medium transition-colors w-fit disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_12px_30px_rgba(15,23,42,0.35)] hover:bg-black"
+                    >
+                      {isTranscribing
+                        ? "Transcribing..."
+                        : "Generate Subtitles (Local Whisper)"}
+                    </button>
+                    {isTranscribing && transcribeProgress && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-slate-600">
+                          {transcribeProgress}
+                          {transcribePercent > 0 && transcribePercent < 100 && (
+                            <span className="text-slate-800 font-medium ml-1">
+                              ({transcribePercent}%)
+                            </span>
+                          )}
+                        </p>
+                        <div className="h-2 w-full max-w-sm rounded-full bg-slate-200 overflow-hidden">
+                          <div
+                            className="h-full bg-slate-900 rounded-full transition-[width] duration-300"
+                            style={{ width: `${transcribePercent}%` }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
                 {transcribeError && (
-                  <p className="text-sm text-red-400">{transcribeError}</p>
+                  <p className="text-sm text-red-500">{transcribeError}</p>
                 )}
                 {segments.length > 0 && (
                   <div className="space-y-4">
-                    <div className="px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-400">
+                    <div className="px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-100 text-sm text-emerald-700">
                       {segments.length} subtitle segment{segments.length !== 1 ? "s" : ""} generated
                     </div>
                     <TranscriptEditor
@@ -197,17 +221,22 @@ export default function Home() {
                     />
                   </div>
                 )}
-              </div>
+              
             </section>
           )}
         </div>
 
         {audioUrl && (
           <>
-            <section className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 shadow-xl">
-              <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">
-                3. Preview &amp; Export Video
-              </h2>
+            <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                  3. Preview &amp; Export Video
+                </h2>
+                <InfoTooltip label="Preview help">
+                  The preview matches the exported MP4. Drag elements directly on the canvas to fine‑tune layout before downloading.
+                </InfoTooltip>
+              </div>
               <div className="space-y-4">
                 <VideoPreview
                   audioUrl={audioUrl}
@@ -220,10 +249,15 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 shadow-xl">
-              <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">
-                4. Branding &amp; Video Settings
-              </h2>
+            <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                  4. Branding &amp; Video Settings
+                </h2>
+                <InfoTooltip label="Branding help">
+                  Adjust your podcast title, logo, subtitles, waveform, and background so exported videos match your channel branding.
+                </InfoTooltip>
+              </div>
               <BrandingEditor branding={branding} onChange={setBranding} />
             </section>
           </>

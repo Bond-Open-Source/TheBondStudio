@@ -3,13 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f0f0f;
-  --foreground: #ededed;
+  --background: #f5f5f7;
+  --foreground: #111827;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, -system-ui, "SF Pro Text",
+    "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+.app-shell {
+  background:
+    radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.2), transparent 65%),
+    radial-gradient(circle at 100% 0, rgba(129, 140, 248, 0.16), transparent 65%),
+    radial-gradient(circle at 50% 120%, rgba(45, 212, 191, 0.14), transparent 65%);
 }
 
 /* Waveform container */

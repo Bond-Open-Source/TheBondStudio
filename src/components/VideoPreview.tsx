@@ -16,6 +16,7 @@ import { DEFAULT_LAYOUT } from "@/types";
 import type { SubtitleSegment } from "@/types";
 import type { BrandingTemplate } from "@/types";
 import type { VideoLayout } from "@/types";
+import InfoTooltip from "@/components/InfoTooltip";
 
 interface VideoPreviewProps {
   audioUrl: string;
@@ -464,16 +465,21 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-zinc-500">
-        {branding.logoUrl
-          ? "Preview (same as export). Drag the logo, waveform, title, or subtitle to reposition."
-          : "Preview (same as export). Add a logo in Branding settings below, then drag any element to reposition."}
-        {" "}
-        Use the progress bar to scrub through the video.
-      </p>
+      <div className="flex items-start justify-between gap-3 text-sm text-slate-600">
+        <p>
+          {branding.logoUrl
+            ? "Preview (same as export). Drag the logo, waveform, title, or subtitle to reposition."
+            : "Preview (same as export). Add a logo in Branding settings below, then drag any element to reposition."}
+          {" "}
+          Use the progress bar to scrub through the video.
+        </p>
+        <InfoTooltip label="Preview controls">
+          The preview canvas is fully interactive. Drag elements to adjust layout, scrub with the slider, then export when you are happy with the framing.
+        </InfoTooltip>
+      </div>
       <div
         ref={containerRef}
-        className="relative w-full rounded-xl overflow-hidden bg-black border border-zinc-700/60 shadow-xl"
+        className="relative w-full rounded-xl overflow-hidden bg-black border border-slate-200 shadow-md"
         style={{
           maxWidth: "100%",
           aspectRatio: `${width} / ${height}`,
@@ -508,7 +514,7 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
             }}
           />
           <div className="flex items-center justify-between mt-2 gap-4">
-            <span className="text-xs text-zinc-400 font-mono tabular-nums">
+            <span className="text-xs text-slate-600 font-mono tabular-nums">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
             <div className="flex items-center gap-3">
@@ -516,7 +522,7 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
                 type="button"
                 onClick={togglePlay}
                 disabled={exporting}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium shadow-lg disabled:opacity-50"
+                className="px-5 py-2 rounded-xl bg-slate-900 text-slate-50 text-sm font-medium shadow-lg hover:bg-black disabled:opacity-50"
               >
                 {isPlaying ? "Pause" : "Play"}
               </button>
@@ -524,7 +530,7 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
                 type="button"
                 onClick={handleExport}
                 disabled={exporting}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium shadow-lg disabled:opacity-50"
+                className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-medium shadow-lg disabled:opacity-50"
               >
                 {exporting ? `Exporting ${Math.round(exportProgress)}%` : "Download MP4"}
               </button>

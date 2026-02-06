@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { segmentsToSrt, srtToSegments, removeFillersFromSegments } from "@/lib/srt";
 import type { SubtitleSegment } from "@/types";
+import InfoTooltip from "@/components/InfoTooltip";
 
 function formatTime(sec: number): string {
   if (!Number.isFinite(sec) || sec < 0) return "0:00";
@@ -71,18 +72,28 @@ export default function TranscriptEditor({ segments, onChange, audioDuration }: 
   return (
     <div className="space-y-3">
       {isDirty && (
-        <div className="px-4 py-3 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm">
-          <strong>Unsaved edits.</strong> Click &quot;Apply edits&quot; below to use these subtitles in the video preview and export.
+        <div className="px-4 py-3 rounded-xl bg-amber-50 border border-amber-100 text-amber-800 text-sm flex items-start gap-2">
+          <InfoTooltip label="Unsaved edits">
+            These transcript changes are local to this editor until you click &quot;Apply edits&quot;. Applying updates the preview and exported video.
+          </InfoTooltip>
+          <p>
+            <strong className="font-semibold">Unsaved edits.</strong> Click &quot;Apply edits&quot; below to use these subtitles in the video preview and export.
+          </p>
         </div>
       )}
       {segmentsBeyondAudio && (
-        <div className="px-4 py-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-400 text-sm">
-          Some subtitles are timed <strong>after the audio ends</strong> (last at {formatTime(maxSegmentEnd)}, audio is {formatTime(audioDuration)}). They will not appear in the video. Use an SRT that matches your audio length, or trim your audio.
+        <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm flex items-start gap-2">
+          <InfoTooltip label="Subtitle timing">
+            One or more subtitle entries end after the audio file does. Adjust the SRT timings or trim the audio so everything fits inside the episode.
+          </InfoTooltip>
+          <p>
+            Some subtitles are timed <strong>after the audio ends</strong> (last at {formatTime(maxSegmentEnd)}, audio is {formatTime(audioDuration)}). They will not appear in the video. Use an SRT that matches your audio length, or trim your audio.
+          </p>
         </div>
       )}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-zinc-500">
-          Edit transcript below. Click Apply to update the video.
+        <span className="text-xs font-medium text-slate-600">
+          Edit the transcript below. Click Apply to sync subtitles with the preview and export.
         </span>
         <button
           type="button"
@@ -113,7 +124,7 @@ export default function TranscriptEditor({ segments, onChange, audioDuration }: 
           setSrtText(e.target.value);
           setIsDirty(true);
         }}
-        className="w-full h-64 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-100 text-sm font-mono resize-y focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none placeholder-zinc-500"
+        className="w-full h-64 px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm font-mono resize-y focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none placeholder-slate-400"
         placeholder="SRT transcript..."
         spellCheck={true}
       />

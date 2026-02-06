@@ -10,6 +10,7 @@ import {
   type VideoLayout,
   type WaveformStyle,
 } from "@/types";
+import InfoTooltip from "@/components/InfoTooltip";
 
 interface BrandingEditorProps {
   branding: BrandingTemplate;
@@ -61,41 +62,51 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
       <div className="flex flex-wrap gap-6">
         <div className="flex-1 min-w-[200px]">
           <div className="flex items-center justify-between gap-3 mb-2">
-            <label className="text-xs font-medium text-zinc-500">Podcast Title</label>
-            <label className="flex items-center gap-2 text-xs text-zinc-500 cursor-pointer">
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-medium text-slate-600">Podcast Title</label>
+              <InfoTooltip label="Podcast title">
+                This title appears inside the exported video. Use your show name or episode title so the video feels native to your channel.
+              </InfoTooltip>
+            </div>
+            <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
               <input
                 type="checkbox"
                 checked={!!branding.titleVisible}
                 onChange={(e) => handleChange("titleVisible", e.target.checked)}
-                className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500"
+                className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
               />
               <span>Show on video</span>
             </label>
           </div>
-        <input
-          type="text"
-          value={branding.podcastName}
-          onChange={(e) => handleChange("podcastName", e.target.value)}
-          placeholder="My Podcast"
-          className="w-full px-4 py-2.5 rounded-xl bg-zinc-800/80 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
-        />
+          <input
+            type="text"
+            value={branding.podcastName}
+            onChange={(e) => handleChange("podcastName", e.target.value)}
+            placeholder="My Podcast"
+            className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+          />
         </div>
-        <label className="flex items-center gap-2 text-xs text-zinc-500 cursor-pointer self-end pb-2">
+        <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer self-end pb-2">
           <input
             type="checkbox"
             checked={!!branding.progressBarVisible}
             onChange={(e) => handleChange("progressBarVisible", e.target.checked)}
-            className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500"
+            className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
           />
           <span>Show progress bar</span>
         </label>
       </div>
 
-      <div className="rounded-xl border border-zinc-700/60 p-4 space-y-3 bg-zinc-800/30">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Title style</h4>
+      <div className="rounded-2xl border border-slate-200/80 p-4 space-y-3 bg-white">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Title style</h4>
+          <InfoTooltip label="Title style">
+            Fine‑tune how your show title appears in the frame. Keep it large and high‑contrast so it is readable on phones.
+          </InfoTooltip>
+        </div>
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Color</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Color</label>
             <div className="flex gap-1">
               <input
                 type="color"
@@ -106,7 +117,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                     titleStyle: { ...titleStyle, color: e.target.value },
                   })
                 }
-                className="w-9 h-9 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800"
+                className="w-9 h-9 rounded-lg cursor-pointer border-0 p-0"
               />
               <input
                 type="text"
@@ -117,12 +128,12 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                     titleStyle: { ...titleStyle, color: e.target.value },
                   })
                 }
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-600 text-xs font-mono text-zinc-200"
+                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Size</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Size</label>
             <input
               type="number"
               min={24}
@@ -137,11 +148,11 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   },
                 })
               }
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Weight</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Weight</label>
             <select
               value={titleStyle.fontWeight ?? DEFAULT_TITLE_STYLE.fontWeight}
               onChange={(e) =>
@@ -150,7 +161,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   titleStyle: { ...titleStyle, fontWeight: Number(e.target.value) || 700 },
                 })
               }
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             >
               <option value={400}>Regular</option>
               <option value={600}>Semibold</option>
@@ -161,7 +172,12 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
       </div>
 
       <div className="space-y-3">
-        <label className="block text-xs font-medium text-zinc-500 mb-2">Logo</label>
+        <div className="flex items-center justify-between gap-2">
+          <label className="block text-xs font-medium text-slate-600 mb-2">Logo</label>
+          <InfoTooltip label="Logo">
+            Upload a square or circular logo (at least 512×512px) for the sharpest result in your exported videos.
+          </InfoTooltip>
+        </div>
         <div className="flex items-center gap-3">
           {branding.logoUrl && (
             <img
@@ -174,7 +190,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
             type="file"
             accept="image/*"
             onChange={handleLogoChange}
-            className="block w-full text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-600 file:text-white hover:file:bg-indigo-500"
+            className="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-slate-900 file:text-white hover:file:bg-black"
           />
           {branding.logoUrl && (
             <button
@@ -188,7 +204,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
         </div>
         {branding.logoUrl && (
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Size</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Size</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -197,28 +213,33 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 step={5}
                 value={Math.round((logoLayout.scale ?? 1) * 100)}
                 onChange={(e) => handleLayoutLogo({ scale: Number(e.target.value) / 100 })}
-                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-zinc-700 accent-indigo-500"
+                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-slate-200 accent-slate-900"
               />
               <span className="text-xs text-zinc-500 tabular-nums w-12 text-right">
                 {Math.round((logoLayout.scale ?? 1) * 100)}%
               </span>
             </div>
-            <p className="text-[11px] text-zinc-500 mt-1">Drag the logo in the preview to reposition.</p>
+            <p className="text-[11px] text-slate-500 mt-1">Drag the logo in the preview to reposition.</p>
           </div>
         )}
       </div>
 
-      <div className="rounded-xl border border-zinc-700/60 p-4 space-y-3 bg-zinc-800/30">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Subtitle style</h4>
+      <div className="rounded-2xl border border-slate-200/80 p-4 space-y-3 bg-white">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Subtitle style</h4>
+          <InfoTooltip label="Subtitle style">
+            Adjust readability and emphasis for subtitles. High contrast colors and a slightly heavier weight are easier to read on mobile.
+          </InfoTooltip>
+        </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Font</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Font</label>
             <div className="space-y-1">
               <select
                 value={subtitleStyle.font ?? "system-ui"}
                 onChange={(e) => handleSubtitleStyle("font", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
               >
                 <option value="system-ui">System UI</option>
                 <option value="Georgia">Georgia</option>
@@ -231,34 +252,34 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 <option value="Roboto">Roboto</option>
                 <option value="Lato">Lato</option>
               </select>
-              <label className="flex items-center gap-2 text-[11px] text-zinc-500 cursor-pointer">
+              <label className="flex items-center gap-2 text-[11px] text-slate-600 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={!!subtitleStyle.uppercase}
                   onChange={(e) => handleSubtitleStyle("uppercase", e.target.checked)}
-                  className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500 focus:ring-indigo-500"
+                  className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900"
                 />
                 <span>Uppercase subtitles</span>
               </label>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Size</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Size</label>
             <input
               type="number"
               min={20}
               max={80}
               value={subtitleStyle.fontSize ?? 42}
               onChange={(e) => handleSubtitleStyle("fontSize", Number(e.target.value) || 42)}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Font weight</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Font weight</label>
             <select
               value={subtitleStyle.fontWeight ?? 400}
               onChange={(e) => handleSubtitleStyle("fontWeight", Number(e.target.value) || 400)}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             >
               <option value={300}>Light (300)</option>
               <option value={400}>Regular (400)</option>
@@ -271,48 +292,48 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Color</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Color</label>
             <div className="flex gap-1">
               <input
                 type="color"
                 value={subtitleStyle.color ?? "#ffffff"}
                 onChange={(e) => handleSubtitleStyle("color", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800"
+                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
               />
               <input
                 type="text"
                 value={subtitleStyle.color ?? "#ffffff"}
                 onChange={(e) => handleSubtitleStyle("color", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-600 text-xs font-mono text-zinc-200"
+                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Highlight</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Highlight</label>
             <div className="flex gap-1">
               <input
                 type="color"
                 value={subtitleStyle.highlightColor ?? branding.primaryColor}
                 onChange={(e) => handleSubtitleStyle("highlightColor", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800"
+                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
               />
               <input
                 type="text"
                 value={subtitleStyle.highlightColor ?? branding.primaryColor}
                 onChange={(e) => handleSubtitleStyle("highlightColor", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-600 text-xs font-mono text-zinc-200"
+                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-zinc-500 mb-2">Stroke width</label>
+            <label className="block text-xs font-medium text-slate-600 mb-2">Stroke width</label>
             <input
               type="number"
               min={0}
               max={8}
               value={subtitleStyle.strokeWidth ?? 0}
               onChange={(e) => handleSubtitleStyle("strokeWidth", Number(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             />
           </div>
         </div>
@@ -320,38 +341,38 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
         {(subtitleStyle.strokeWidth ?? 0) > 0 && (
           <div className="grid gap-3 sm:grid-cols-3">
             <div>
-              <label className="block text-xs font-medium text-zinc-500 mb-2">Stroke color</label>
+              <label className="block text-xs font-medium text-slate-600 mb-2">Stroke color</label>
               <div className="flex gap-1">
                 <input
                   type="color"
                   value={subtitleStyle.strokeColor ?? "#000000"}
                   onChange={(e) => handleSubtitleStyle("strokeColor", e.target.value)}
-                  className="w-8 h-8 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800"
+                  className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
                 />
                 <input
                   type="text"
                   value={subtitleStyle.strokeColor ?? "#000000"}
                   onChange={(e) => handleSubtitleStyle("strokeColor", e.target.value)}
-                  className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-600 text-xs font-mono text-zinc-200"
+                  className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
                 />
               </div>
             </div>
           </div>
         )}
 
-        <div className="space-y-3 pt-2 border-t border-zinc-700/60">
-          <label className="flex items-center gap-2 text-[11px] text-zinc-500 cursor-pointer">
+        <div className="space-y-3 pt-2 border-t border-slate-200">
+          <label className="flex items-center gap-2 text-[11px] text-slate-600 cursor-pointer">
             <input
               type="checkbox"
               checked={!!subtitleStyle.transcriptDecoration}
               onChange={(e) => handleSubtitleStyle("transcriptDecoration", e.target.checked)}
-              className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500 focus:ring-indigo-500"
+              className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900"
             />
             <span>Transcript decoration</span>
           </label>
           {subtitleStyle.transcriptDecoration && (
             <div>
-              <label className="block text-xs font-medium text-zinc-500 mb-2">Decoration opacity</label>
+              <label className="block text-xs font-medium text-slate-600 mb-2">Decoration opacity</label>
               <div className="flex items-center gap-2">
                 <input
                   type="range"
@@ -362,13 +383,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   onChange={(e) =>
                     handleSubtitleStyle("transcriptDecorationOpacity", Number(e.target.value) || 30)
                   }
-                  className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-zinc-700 accent-indigo-500"
+                  className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-slate-200 accent-slate-900"
                 />
-                <span className="text-xs text-zinc-500 tabular-nums w-10">
+                <span className="text-xs text-slate-600 tabular-nums w-10">
                   {subtitleStyle.transcriptDecorationOpacity ?? 30}%
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-500 mt-1">
+              <p className="text-[11px] text-slate-500 mt-1">
                 Other words: white at opacity. Current word: full white.
               </p>
             </div>
@@ -376,15 +397,20 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
         </div>
       </div>
 
-      <div className="rounded-xl border border-zinc-700/60 p-4 space-y-3 bg-zinc-800/30">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Waveform</h4>
+      <div className="rounded-2xl border border-slate-200/80 p-4 space-y-3 bg-white">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Waveform</h4>
+          <InfoTooltip label="Waveform">
+            Choose a waveform style that matches your brand. Simpler shapes feel more minimal; dynamic ones feel more energetic.
+          </InfoTooltip>
+        </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <div className="sm:w-1/3">
-            <label className="block text-[11px] font-medium text-zinc-500 mb-2">Style</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-2">Style</label>
             <select
               value={branding.waveformStyle ?? "bars"}
               onChange={(e) => handleChange("waveformStyle", e.target.value as WaveformStyle)}
-              className="w-full px-3 py-2 rounded-lg border border-zinc-600 bg-zinc-800 text-sm text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-slate-50 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
             >
               <optgroup label="Classic">
                 <option value="bars">Bars (circular)</option>
@@ -419,7 +445,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
           </div>
 
           <div className="sm:w-1/3">
-            <label className="block text-[11px] font-medium text-zinc-500 mb-2">Size</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-2">Size</label>
             <div className="flex items-center gap-2">
               <input
                 type="range"
@@ -428,63 +454,68 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 step={5}
                 value={Math.round((waveformLayout.scale ?? 1) * 100)}
                 onChange={(e) => handleLayoutWaveform({ scale: Number(e.target.value) / 100 })}
-                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-zinc-700 accent-indigo-500"
+                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-slate-200 accent-slate-900"
               />
-              <span className="text-xs text-slate-500 tabular-nums w-10 text-right">
+              <span className="text-xs text-slate-600 tabular-nums w-10 text-right">
                 {Math.round((waveformLayout.scale ?? 1) * 100)}%
               </span>
             </div>
           </div>
 
           <div className="sm:flex-1">
-            <label className="block text-[11px] font-medium text-zinc-500 mb-2">Color</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-2">Color</label>
             <div className="flex items-center gap-1">
               <input
                 type="color"
                 value={branding.waveformColor ?? branding.primaryColor}
                 onChange={(e) => handleChange("waveformColor", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800"
+                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
               />
               <input
                 type="text"
                 value={branding.waveformColor ?? branding.primaryColor}
                 onChange={(e) => handleChange("waveformColor", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-600 text-xs font-mono text-zinc-200"
+                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
               />
             </div>
           </div>
         </div>
-        <p className="text-[11px] text-zinc-500">
+        <p className="text-[11px] text-slate-500">
           Drag the waveform in the preview to reposition it.
         </p>
       </div>
 
       <div className="space-y-3">
-        <label className="block text-xs font-medium text-zinc-500 mb-2">Video background</label>
+        <div className="flex items-center justify-between gap-2">
+          <label className="block text-xs font-medium text-slate-600 mb-2">Video background</label>
+          <InfoTooltip label="Video background">
+            Use a subtle dark background or a soft image with blur. Avoid busy images so subtitles and waveforms stay readable.
+          </InfoTooltip>
+        </div>
         <div className="flex gap-2 items-center">
           <input
             type="color"
             value={branding.videoBackgroundColor ?? "#0a0a0a"}
             onChange={(e) => onChange({ ...branding, videoBackgroundColor: e.target.value })}
-            className="w-10 h-10 rounded-lg cursor-pointer border border-zinc-600 bg-zinc-800 p-0.5"
+            className="w-10 h-10 rounded-lg cursor-pointer border-0 p-0"
           />
           <input
             type="text"
             value={branding.videoBackgroundColor ?? "#0a0a0a"}
             onChange={(e) => onChange({ ...branding, videoBackgroundColor: e.target.value })}
-            className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-600 text-zinc-100 font-mono text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+            className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-slate-900 font-mono text-sm focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
           />
         </div>
-        <p className="text-[11px] text-zinc-500">Solid color when no image is set</p>
+        <p className="text-[11px] text-slate-500">Solid color when no image is set</p>
 
         <div>
-          <label className="block text-xs font-medium text-zinc-500 mb-2">Background image</label>
+          <label className="block text-xs font-medium text-slate-600 mb-2">Background image</label>
           <div className="flex items-center gap-3">
             {branding.videoBackgroundImageUrl && (
               <img
                 src={branding.videoBackgroundImageUrl}
                 alt="Background"
-                className="w-16 h-10 rounded object-cover border border-zinc-600"
+                className="w-16 h-10 rounded object-cover border border-slate-300"
               />
             )}
             <input
@@ -499,13 +530,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   reader.readAsDataURL(file);
                 }
               }}
-              className="block w-full text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-600 file:text-white hover:file:bg-indigo-500"
+              className="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-slate-900 file:text-white hover:file:bg-black"
             />
             {branding.videoBackgroundImageUrl && (
               <button
                 type="button"
                 onClick={() => onChange({ ...branding, videoBackgroundImageUrl: null })}
-                className="text-xs text-red-400 hover:text-red-300"
+                className="text-xs text-red-500 hover:text-red-400"
               >
                 Remove
               </button>
@@ -514,25 +545,25 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
           {branding.videoBackgroundImageUrl && (
             <div className="space-y-3 mt-3">
               <div className="flex flex-wrap gap-4">
-                <label className="flex items-center gap-2 text-xs text-zinc-500 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={branding.videoBackgroundBlurEnabled !== false}
                     onChange={(e) =>
                       onChange({ ...branding, videoBackgroundBlurEnabled: e.target.checked })
                     }
-                    className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500"
+                    className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
                   />
                   <span>Blur</span>
                 </label>
-                <label className="flex items-center gap-2 text-xs text-zinc-500 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={branding.videoBackgroundOverlayEnabled !== false}
                     onChange={(e) =>
                       onChange({ ...branding, videoBackgroundOverlayEnabled: e.target.checked })
                     }
-                    className="h-3.5 w-3.5 rounded border-zinc-600 bg-zinc-800 text-indigo-500"
+                    className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
                   />
                   <span>Black overlay</span>
                 </label>
@@ -540,7 +571,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
               <div className="grid grid-cols-2 gap-4">
                 {branding.videoBackgroundBlurEnabled !== false && (
                   <div>
-                    <label className="block text-xs font-medium text-zinc-500 mb-2">Blur amount</label>
+                    <label className="block text-xs font-medium text-slate-600 mb-2">Blur amount</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="range"
@@ -551,9 +582,9 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                         onChange={(e) =>
                           onChange({ ...branding, videoBackgroundBlur: Number(e.target.value) || 12 })
                         }
-                        className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-zinc-700 accent-indigo-500"
+                        className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-slate-200 accent-slate-900"
                       />
-                      <span className="text-xs text-zinc-500 tabular-nums w-8">
+                      <span className="text-xs text-slate-600 tabular-nums w-8">
                         {branding.videoBackgroundBlur ?? 12}px
                       </span>
                     </div>
@@ -561,7 +592,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 )}
                 {branding.videoBackgroundOverlayEnabled !== false && (
                   <div>
-                    <label className="block text-xs font-medium text-zinc-500 mb-2">Overlay opacity</label>
+                    <label className="block text-xs font-medium text-slate-600 mb-2">Overlay opacity</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="range"
@@ -572,9 +603,9 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                         onChange={(e) =>
                           onChange({ ...branding, videoBackgroundOverlay: Number(e.target.value) || 55 })
                         }
-                        className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-zinc-700 accent-indigo-500"
+                        className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer bg-slate-200 accent-slate-900"
                       />
-                      <span className="text-xs text-zinc-500 tabular-nums w-10">
+                      <span className="text-xs text-slate-600 tabular-nums w-10">
                         {branding.videoBackgroundOverlay ?? 55}%
                       </span>
                     </div>
@@ -589,7 +620,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
       <button
         type="button"
         onClick={() => onChange(DEFAULT_BRANDING)}
-        className="text-xs text-zinc-500 hover:text-zinc-400 transition-colors"
+        className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
       >
         Reset to defaults
       </button>
