@@ -26,6 +26,74 @@ body {
   background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(30, 30, 30, 0.9) 100%);
 }
 
+/* Shared form control style: same height, font, and look for inputs and selects */
+@layer components {
+  .input-field,
+  .select-combo {
+    height: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    color: rgb(15 23 42);
+    background-color: rgb(248 250 252);
+    border: 1px solid rgb(203 213 225);
+    border-radius: 0.5rem;
+    outline: none;
+  }
+  .input-field::placeholder {
+    color: rgb(148 163 184);
+  }
+  .input-field:focus,
+  .select-combo:focus {
+    border-color: rgb(15 23 42);
+    box-shadow: 0 0 0 1px rgb(15 23 42);
+  }
+  .select-combo {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+  .select-combo.w-full,
+  .input-field.w-full {
+    width: 100%;
+  }
+
+  /* Color picker: same height as other controls, more rounded */
+  .color-picker {
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0;
+    border: 1px solid rgb(203 213 225);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+  }
+  .color-picker::-webkit-color-swatch-wrapper {
+    padding: 2px;
+  }
+  .color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 0.5rem;
+  }
+  .color-picker::-moz-color-swatch {
+    border: none;
+    border-radius: 0.5rem;
+  }
+  .color-picker:focus {
+    border-color: rgb(15 23 42);
+    box-shadow: 0 0 0 1px rgb(15 23 42);
+  }
+}
+
 /* Indeterminate progress bar */
 @keyframes progress-indeterminate {
   0% {

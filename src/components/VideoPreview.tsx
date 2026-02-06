@@ -16,7 +16,6 @@ import { DEFAULT_LAYOUT } from "@/types";
 import type { SubtitleSegment } from "@/types";
 import type { BrandingTemplate } from "@/types";
 import type { VideoLayout } from "@/types";
-import InfoTooltip from "@/components/InfoTooltip";
 
 interface VideoPreviewProps {
   audioUrl: string;
@@ -252,10 +251,8 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
       if (((nx - wx) / rx) ** 2 + ((ny - wy) / ry) ** 2 <= 1) return "waveform";
       const subY = layout.subtitle.centerY;
       if (ny >= subY - 0.06 && ny <= subY + 0.06) return "subtitle";
-      if (branding.progressBarVisible) {
-        const barY = layout.progressBar.y;
-        if (ny >= barY - 0.02 && ny <= barY + 0.02) return "progressBar";
-      }
+      const barY = layout.progressBar.y;
+      if (ny >= barY - 0.02 && ny <= barY + 0.02) return "progressBar";
       return null;
     },
     [layout, branding.logoUrl, branding.titleVisible, branding.progressBarVisible]
@@ -463,9 +460,13 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
     }
   }, [duration, branding, segments, amplitudeCurve]);
 
+  const durationMinutes = duration > 0 ? duration / 60 : 0;
+  const exportMin = durationMinutes <= 0 ? 0 : Math.max(1, Math.round(durationMinutes * 0.6));
+  const exportMax = durationMinutes <= 0 ? 0 : Math.min(60, Math.round(durationMinutes * 2));
+
   return (
     <div className="space-y-3">
-      <div className="flex items-start justify-between gap-3 text-sm text-slate-600">
+      <div className="text-sm text-slate-600">
         <p>
           {branding.logoUrl
             ? "Preview (same as export). Drag the logo, waveform, title, or subtitle to reposition."
@@ -473,9 +474,20 @@ export default function VideoPreview({ audioUrl, segments, branding, amplitudeCu
           {" "}
           Use the progress bar to scrub through the video.
         </p>
-        <InfoTooltip label="Preview controls">
-          The preview canvas is fully interactive. Drag elements to adjust layout, scrub with the slider, then export when you are happy with the framing.
-        </InfoTooltip>
+      </div>
+      <div className="rounded-xl border border-amber-200/80 bg-amber-50/80 px-4 py-3 text-sm text-slate-700">
+        <p className="font-medium text-slate-800 mb-2">Export runs locally and can take a while — keep this tab open.</p>
+        <p className="text-xs text-slate-600 mb-2">Rough guide:</p>
+        <ul className="text-xs text-slate-600 space-y-0.5 mb-2">
+          <li><strong className="text-slate-700">5 min</strong> audio → about <strong>3–8 min</strong> export</li>
+          <li><strong className="text-slate-700">30 min</strong> audio → about <strong>15–45 min</strong> export</li>
+          <li><strong className="text-slate-700">Up to 1 h</strong> audio → <strong>up to ~1 h</strong> export</li>
+        </ul>
+        {duration > 0 && (
+          <p className="text-xs text-slate-700">
+            For this audio ({formatTime(duration)}): about <strong>{exportMin}–{exportMax} min</strong>.
+          </p>
+        )}
       </div>
       <div
         ref={containerRef}

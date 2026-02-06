@@ -97,7 +97,7 @@ export interface BrandingTemplate {
   podcastName: string;
   /** Show podcast title on video. Default false. */
   titleVisible?: boolean;
-  /** Show progress bar on video. Default false. */
+  /** Show progress bar on video. Default true. */
   progressBarVisible?: boolean;
   logoUrl: string | null;
   primaryColor: string;
@@ -129,7 +129,7 @@ export interface BrandingTemplate {
 export const DEFAULT_BRANDING: BrandingTemplate = {
   podcastName: "My Podcast",
   titleVisible: false,
-  progressBarVisible: false,
+  progressBarVisible: true,
   logoUrl: null,
   primaryColor: "#1d4ed8",
   secondaryColor: "#3b82f6",

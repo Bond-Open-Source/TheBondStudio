@@ -15,9 +15,11 @@ function isAcceptedFile(file: File): boolean {
 interface AudioUploaderProps {
   onFileSelect: (file: File) => void;
   isProcessing?: boolean;
+  /** Display name of the currently loaded file (e.g. from parent state). */
+  fileName?: string | null;
 }
 
-export default function AudioUploader({ onFileSelect, isProcessing }: AudioUploaderProps) {
+export default function AudioUploader({ onFileSelect, isProcessing, fileName }: AudioUploaderProps) {
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
@@ -78,9 +80,15 @@ export default function AudioUploader({ onFileSelect, isProcessing }: AudioUploa
           />
         </svg>
         <span className="text-sm text-slate-900 mb-1 font-medium">
-          {isProcessing ? "Processing…" : "Drop audio file here or click to choose"}
+          {isProcessing ? "Processing…" : fileName ? "Replace audio or drop another file" : "Drop audio file here or click to choose"}
         </span>
-        <span className="text-xs text-slate-500">Optimized for MP3, WAV, or M4A</span>
+        <span className="text-xs text-slate-500">
+          {fileName ? (
+            <span className="font-medium text-slate-700">{fileName}</span>
+          ) : (
+            "Optimized for MP3, WAV, or M4A"
+          )}
+        </span>
       </label>
       <div className="flex items-center gap-2 text-[11px] text-slate-500">
         <InfoTooltip label="Recommended audio">

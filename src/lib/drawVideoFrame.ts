@@ -1302,14 +1302,20 @@ export function drawVideoFrame(opts: DrawVideoFrameOptions): void {
     drawWaveformGlow(ctx, { cx, cy, width, scale, progress, duration, amplitude, amplitudeCurve, waveformColor, time, waveformScale });
   }
 
-  if (branding.progressBarVisible) {
-    const progressBarY = layout.progressBar.y * height;
-    const progressBarH = 8 * scale;
-    const progressWidth = duration > 0 ? (time / duration) * (width - pad * 2) : 0;
-    ctx.fillStyle = branding.primaryColor + "40";
-    ctx.fillRect(pad, progressBarY, width - pad * 2, progressBarH);
-    ctx.fillStyle = branding.primaryColor;
-    ctx.fillRect(pad, progressBarY, progressWidth, progressBarH);
+  // Progress bar on the video itself (always on unless explicitly disabled)
+  if (branding.progressBarVisible !== false) {
+    const progressBarH = Math.max(10, 14 * scale);
+    const progressBarY = layout.progressBar.y * height - progressBarH / 2;
+    const barW = width - pad * 2;
+    const progressWidth = duration > 0 ? (time / duration) * barW : 0;
+    const trackColor = branding.primaryColor + "50";
+    const fillColor = branding.primaryColor;
+    ctx.fillStyle = trackColor;
+    ctx.fillRect(pad, progressBarY, barW, progressBarH);
+    if (progressWidth > 0) {
+      ctx.fillStyle = fillColor;
+      ctx.fillRect(pad, progressBarY, progressWidth, progressBarH);
+    }
   }
 
   // Subtitle size, color, stroke, font: edit DEFAULT_SUBTITLE_STYLE in src/types/index.ts

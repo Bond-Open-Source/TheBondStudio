@@ -59,7 +59,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
   return (
     <div className="space-y-6">
 
-      <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-6">
         <div className="flex-1 min-w-[200px]">
           <div className="flex items-center justify-between gap-3 mb-2">
             <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 onChange={(e) => handleChange("titleVisible", e.target.checked)}
                 className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
               />
-              <span>Show on video</span>
+              <span>Add title on video</span>
             </label>
           </div>
           <input
@@ -83,18 +83,9 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
             value={branding.podcastName}
             onChange={(e) => handleChange("podcastName", e.target.value)}
             placeholder="My Podcast"
-            className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+            className="input-field w-full"
           />
         </div>
-        <label className="flex items-center gap-2 text-xs text-slate-600 cursor-pointer self-end pb-2">
-          <input
-            type="checkbox"
-            checked={!!branding.progressBarVisible}
-            onChange={(e) => handleChange("progressBarVisible", e.target.checked)}
-            className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900"
-          />
-          <span>Show progress bar</span>
-        </label>
       </div>
 
       <div className="rounded-2xl border border-slate-200/80 p-4 space-y-3 bg-white">
@@ -117,7 +108,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                     titleStyle: { ...titleStyle, color: e.target.value },
                   })
                 }
-                className="w-9 h-9 rounded-lg cursor-pointer border-0 p-0"
+                className="color-picker"
               />
               <input
                 type="text"
@@ -128,7 +119,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                     titleStyle: { ...titleStyle, color: e.target.value },
                   })
                 }
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
+                className="input-field flex-1 min-w-0 font-mono"
               />
             </div>
           </div>
@@ -148,7 +139,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   },
                 })
               }
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="input-field w-full"
             />
           </div>
           <div>
@@ -161,7 +152,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   titleStyle: { ...titleStyle, fontWeight: Number(e.target.value) || 700 },
                 })
               }
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="select-combo w-full"
             >
               <option value={400}>Regular</option>
               <option value={600}>Semibold</option>
@@ -239,7 +230,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
               <select
                 value={subtitleStyle.font ?? "system-ui"}
                 onChange={(e) => handleSubtitleStyle("font", e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+                className="select-combo w-full"
               >
                 <option value="system-ui">System UI</option>
                 <option value="Georgia">Georgia</option>
@@ -271,7 +262,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
               max={80}
               value={subtitleStyle.fontSize ?? 42}
               onChange={(e) => handleSubtitleStyle("fontSize", Number(e.target.value) || 42)}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="input-field w-full"
             />
           </div>
           <div>
@@ -279,7 +270,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
             <select
               value={subtitleStyle.fontWeight ?? 400}
               onChange={(e) => handleSubtitleStyle("fontWeight", Number(e.target.value) || 400)}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="select-combo w-full"
             >
               <option value={300}>Light (300)</option>
               <option value={400}>Regular (400)</option>
@@ -298,13 +289,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 type="color"
                 value={subtitleStyle.color ?? "#ffffff"}
                 onChange={(e) => handleSubtitleStyle("color", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
+                className="color-picker"
               />
               <input
                 type="text"
                 value={subtitleStyle.color ?? "#ffffff"}
                 onChange={(e) => handleSubtitleStyle("color", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
+                className="input-field flex-1 min-w-0 font-mono"
               />
             </div>
           </div>
@@ -315,13 +306,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 type="color"
                 value={subtitleStyle.highlightColor ?? branding.primaryColor}
                 onChange={(e) => handleSubtitleStyle("highlightColor", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
+                className="color-picker"
               />
               <input
                 type="text"
                 value={subtitleStyle.highlightColor ?? branding.primaryColor}
                 onChange={(e) => handleSubtitleStyle("highlightColor", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
+                className="input-field flex-1 min-w-0 font-mono"
               />
             </div>
           </div>
@@ -333,7 +324,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
               max={8}
               value={subtitleStyle.strokeWidth ?? 0}
               onChange={(e) => handleSubtitleStyle("strokeWidth", Number(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="input-field w-full"
             />
           </div>
         </div>
@@ -347,13 +338,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                   type="color"
                   value={subtitleStyle.strokeColor ?? "#000000"}
                   onChange={(e) => handleSubtitleStyle("strokeColor", e.target.value)}
-                  className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
+                  className="color-picker"
                 />
                 <input
                   type="text"
                   value={subtitleStyle.strokeColor ?? "#000000"}
                   onChange={(e) => handleSubtitleStyle("strokeColor", e.target.value)}
-                  className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
+                  className="input-field flex-1 min-w-0 font-mono"
                 />
               </div>
             </div>
@@ -410,7 +401,7 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
             <select
               value={branding.waveformStyle ?? "bars"}
               onChange={(e) => handleChange("waveformStyle", e.target.value as WaveformStyle)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-slate-50 text-sm text-slate-900 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+              className="select-combo w-full"
             >
               <optgroup label="Classic">
                 <option value="bars">Bars (circular)</option>
@@ -469,13 +460,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
                 type="color"
                 value={branding.waveformColor ?? branding.primaryColor}
                 onChange={(e) => handleChange("waveformColor", e.target.value)}
-                className="w-8 h-8 rounded-lg cursor-pointer border-0 p-0"
+                className="color-picker"
               />
               <input
                 type="text"
                 value={branding.waveformColor ?? branding.primaryColor}
                 onChange={(e) => handleChange("waveformColor", e.target.value)}
-                className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900"
+                className="input-field flex-1 min-w-0 font-mono"
               />
             </div>
           </div>
@@ -497,13 +488,13 @@ export default function BrandingEditor({ branding, onChange }: BrandingEditorPro
             type="color"
             value={branding.videoBackgroundColor ?? "#0a0a0a"}
             onChange={(e) => onChange({ ...branding, videoBackgroundColor: e.target.value })}
-            className="w-10 h-10 rounded-lg cursor-pointer border-0 p-0"
+            className="color-picker"
           />
           <input
             type="text"
             value={branding.videoBackgroundColor ?? "#0a0a0a"}
             onChange={(e) => onChange({ ...branding, videoBackgroundColor: e.target.value })}
-            className="flex-1 min-w-0 px-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-slate-900 font-mono text-sm focus:border-slate-900 focus:ring-1 focus:ring-slate-900 outline-none"
+            className="input-field flex-1 min-w-0 font-mono"
           />
         </div>
         <p className="text-[11px] text-slate-500">Solid color when no image is set</p>

@@ -91,14 +91,14 @@ export default function TranscriptEditor({ segments, onChange, audioDuration }: 
           </p>
         </div>
       )}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-slate-600">
-          Edit the transcript below. Click Apply to sync subtitles with the preview and export.
+      <div className="flex flex-wrap items-center gap-2 mt-10">
+        <span className="text-xs font-normal text-slate-600">
+          Edit the transcript below. <br />Click Apply to sync subtitles with the preview and export.
         </span>
         <button
           type="button"
           onClick={handleRemoveFillers}
-          className="px-3 py-1.5 rounded-lg bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 text-xs font-medium transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-amber-600/30 text-white text-xs font-medium transition-colors"
         >
           Remove fillers (um, uh, like…)
         </button>
@@ -106,14 +106,14 @@ export default function TranscriptEditor({ segments, onChange, audioDuration }: 
           type="button"
           onClick={handleApply}
           disabled={!isDirty}
-          className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-medium transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-indigo-800 hover:bg-indigo-500 disabled:cursor-not-allowed text-white text-xs font-medium transition-colors"
         >
           Apply edits
         </button>
         <button
           type="button"
           onClick={handleDownload}
-          className="px-3 py-1.5 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-zinc-200 text-xs font-medium transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-600 text-zinc-200 text-xs font-medium transition-colors"
         >
           Download SRT
         </button>

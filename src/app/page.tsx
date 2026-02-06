@@ -139,7 +139,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
             <div className="flex items-center justify-between gap-3 mb-4">
-              <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+              <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.1em]">
                 1. Upload Audio
               </h2>
               <InfoTooltip label="Audio upload help">
@@ -149,6 +149,7 @@ export default function Home() {
             <AudioUploader
               onFileSelect={handleFileSelect}
               isProcessing={isTranscribing}
+              fileName={audioFile?.name ?? null}
             />
           </section>
 
@@ -157,35 +158,36 @@ export default function Home() {
               <div className="flex items-center justify-between gap-3 mb-4">
                 <div className="flex items-center gap-2">
                   
-                  <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
-                    2. Waveform &amp; Transcription
+                  <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.1em]">
+                    2. Subtitles
                   </h2>
                 </div>
                 <InfoTooltip label="Transcription help">
                   Generate a local Whisper transcription. Higher‑accuracy mode improves results on difficult audio but is slower.
                 </InfoTooltip>
               </div>
-              <div className="space-y-5">
-                <div className="flex flex-col gap-4">
-                    <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={useSmallModel}
-                      onChange={(e) => setUseSmallModel(e.target.checked)}
-                      disabled={isTranscribing}
-                        className="rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900"
-                      />
-                      Higher accuracy (Whisper small, slower)
-                    </label>
+              <div className="space-y-5 mb-3 mt-4">
+                <div className="flex flex-col gap-2">
+                    
                     <button
                       onClick={handleTranscribe}
                       disabled={isTranscribing}
-                      className="px-5 py-2.5 rounded-xl bg-slate-900 text-slate-50 font-medium transition-colors w-fit disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_12px_30px_rgba(15,23,42,0.35)] hover:bg-black"
+                      className="mb-0 px-5 py-2.5 rounded-xl bg-slate-900 text-slate-50 font-medium transition-colors w-fit disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:bg-black"
                     >
                       {isTranscribing
                         ? "Transcribing..."
-                        : "Generate Subtitles (Local Whisper)"}
+                        : "Generate Subtitles (With Whisper AI)"}
                     </button>
+                    <label className="mt-0 flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={useSmallModel}
+                        onChange={(e) => setUseSmallModel(e.target.checked)}
+                        disabled={isTranscribing}
+                          className="ms-2 rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900"
+                        />
+                        Higher accuracy (Whisper small, slower)
+                    </label>
                     {isTranscribing && transcribeProgress && (
                       <div className="space-y-2">
                         <p className="text-sm text-slate-600">
@@ -230,11 +232,11 @@ export default function Home() {
           <>
             <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
               <div className="flex items-center justify-between gap-3 mb-4">
-                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.1em]">
                   3. Preview &amp; Export Video
                 </h2>
-                <InfoTooltip label="Preview help">
-                  The preview matches the exported MP4. Drag elements directly on the canvas to fine‑tune layout before downloading.
+                <InfoTooltip label="Preview controls">
+                  The preview canvas is fully interactive. Drag elements to adjust layout, scrub with the slider, then export when you are happy with the framing.
                 </InfoTooltip>
               </div>
               <div className="space-y-4">
@@ -251,7 +253,7 @@ export default function Home() {
 
             <section className="rounded-3xl bg-white border border-slate-200/80 p-6 shadow-sm">
               <div className="flex items-center justify-between gap-3 mb-4">
-                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.2em]">
+                <h2 className="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.1em]">
                   4. Branding &amp; Video Settings
                 </h2>
                 <InfoTooltip label="Branding help">
