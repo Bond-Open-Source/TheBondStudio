@@ -14,10 +14,13 @@ Upload audio, generate AI subtitles locally, and export:
 
 ---
 
-## 💙 Support this project
+## ☕ Support this project
 
-If this project saved you time or helped your work,  
-you can support its continued development here:
+We’re a for-profit company, open-sourcing some tools we use.
+
+If this project helped you, consider keeping the developer caffeinated.
+
+All tips go straight to the dev.
 
 👉 https://buy.stripe.com/6oU14pcrK20N8hJ42I5Ne01
 
